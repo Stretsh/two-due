@@ -4,9 +4,9 @@ import { ref } from 'vue'
 export const useTaskStore = defineStore('taskStore', () => {
   const tasks = ref([])
   
-  const addTask = (text, category = 'General') => {
+  const addTask = (text, category = 'General', dueDate = null) => {
     if (!text.trim()) return
-    tasks.value.push({ id: Date.now(), text, category, completed: false })
+    tasks.value.push({ id: Date.now(), text, category, dueDate, completed: false })
   }
   
   const deleteTask = (id) => {

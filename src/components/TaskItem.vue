@@ -12,6 +12,7 @@ const props = defineProps(['task'])
     <div>
       <span class="text-sm font-semibold text-gray-500">{{ task.category }}</span>
       <p :class="{ 'line-through': task.completed }" class="text-lg">{{ task.text }}</p>
+      <p v-if="task.dueDate" class="text-xs text-gray-500">Due: {{ task.dueDate }}</p>
     </div>
 
     <div class="flex gap-2">
