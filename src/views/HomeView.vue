@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class=" bg-white dark:bg-gray-900 dark:text-white min-h-screen p-4 transition-all">
+  <div class="bg-white dark:bg-gray-900 dark:text-white min-h-screen p-4 transition-all">
     <div class="max-w-xl mx-auto mt-10">
 
       <button @click="toggleTheme" class="mb-4 p-2 border rounded-md">
