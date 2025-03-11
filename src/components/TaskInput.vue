@@ -15,7 +15,7 @@ const addTask = () => {
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="flex gap-2 mb-4">
     <input v-model="newTask" @keyup.enter="addTask" placeholder="Add a new task..."
            class="border rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
     <select v-model="category" class="border rounded-md px-4 py-2">

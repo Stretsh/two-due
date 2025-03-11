@@ -6,12 +6,8 @@ const store = useTaskStore()
 </script>
 
 <template>
-  <transition-group
-    tag="div"
-    name="list"
-    class="space-y-2"
-  >
-    <TaskItem v-for="task in store.tasks" :key="task.id" :task="task"/>
+  <transition-group tag="div" name="list" class="space-y-2">
+    <TaskItem v-for="task in store.filteredTasks" :key="task.id" :task="task"/>
   </transition-group>
 </template>
 
