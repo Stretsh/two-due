@@ -6,7 +6,14 @@ export const useTaskStore = defineStore('taskStore', () => {
   const searchQuery = ref('')
   const selectedCategory = ref('All')
   
-  // Load tasks from localStorage when the store initializes
+  const editingTaskId = ref(null)
+  const currentTask = ref({})
+  const blankTask = ref({
+    text: '',
+    category: 'General',
+    dueDate: '',
+  })
+  
   onMounted(() => {
     const storedTasks = localStorage.getItem('tasks')
     if (storedTasks) {
@@ -14,9 +21,11 @@ export const useTaskStore = defineStore('taskStore', () => {
     }
   })
   
-  const addTask = (text, category = 'General', dueDate = null) => {
-    if (!text.trim()) return
-    tasks.value.push({ id: Date.now(), text, category, dueDate, completed: false })
+  const addTask = () => {
+    if (!currentTask.value.text.trim()) return
+    currentTask.value.id = Date.now()
+    tasks.value.push(currentTask.value)
+    resetTask()
   }
   
   const filteredTasks = computed(() => {
@@ -27,6 +36,34 @@ export const useTaskStore = defineStore('taskStore', () => {
     })
   })
   
+  const setEditingTask = id => {
+    editingTaskId.value = id
+  }
+  
+  const cancelEditing = () => {
+    editingTaskId.value = null
+    resetTask()
+  }
+  
+  const resetTask = () => {
+    currentTask.value = JSON.parse(JSON.stringify(blankTask.value))
+  }
+  
+  const getBlankTask = () => {
+    currentTask.value = JSON.parse(JSON.stringify(blankTask.value))
+    return currentTask
+  }
+  
+  const editTask = (id) => {
+    let task = tasks.value.find(task => task.id === id)
+    if (task) {
+      if (currentTask.value.text.trim()) {
+        task = currentTask.value
+        cancelEditing()
+      }
+    }
+  }
+  
   const deleteTask = (id) => {
     tasks.value = tasks.value.filter(task => task.id !== id)
   }
@@ -36,10 +73,12 @@ export const useTaskStore = defineStore('taskStore', () => {
     if (task) task.completed = !task.completed
   }
   
-  // Watch for changes in tasks and save to localStorage
   watch(tasks, newTasks => {
     localStorage.setItem('tasks', JSON.stringify(newTasks))
   }, { deep: true })
   
-  return { tasks, addTask, deleteTask, toggleTask, searchQuery, selectedCategory, filteredTasks }
+  return {
+    tasks, editingTaskId, currentTask,
+    addTask, editTask, deleteTask, toggleTask, setEditingTask, cancelEditing, getBlankTask,
+    searchQuery, selectedCategory, filteredTasks, }
 })
