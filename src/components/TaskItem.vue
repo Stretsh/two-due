@@ -8,7 +8,7 @@ const props = defineProps(['task'])
 </script>
 
 <template>
-  <div class="flex justify-between items-center p-3 bg-white shadow-md rounded-md transition-all">
+  <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-800 dark:text-white shadow-md rounded-md transition-all">
     <div>
       <span class="text-sm font-semibold text-gray-500">{{ task.category }}</span>
       <p :class="{ 'line-through': task.completed }" class="text-lg">{{ task.text }}</p>

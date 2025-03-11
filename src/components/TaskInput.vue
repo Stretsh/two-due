@@ -17,15 +17,19 @@ const addTask = () => {
 <template>
   <div class="flex gap-2 mb-4">
     <input v-model="newTask" @keyup.enter="addTask" placeholder="Add a new task..."
-           class="border rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <select v-model="category" class="border rounded-md px-4 py-2">
+           class="border rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500
+            dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder-gray-400">
+
+    <select v-model="category" class="border rounded-md px-4 py-2 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
       <option>General</option>
       <option>Work</option>
       <option>Personal</option>
       <option>Shopping</option>
     </select>
 
-    <input type="date" v-model="dueDate" class="border rounded-md px-4 py-2" />
+    <input type="date" v-model="dueDate" class="border rounded-md px-4 py-2 placeholder-gray-500
+     dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder-gray-400
+     dark:[&::-webkit-calendar-picker-indicator]:invert dark:[&::-webkit-calendar-picker-indicator]:brightness-75" />
 
     <button @click="addTask"
             class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">Add</button>
