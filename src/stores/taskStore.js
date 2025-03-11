@@ -1,10 +1,18 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 export const useTaskStore = defineStore('taskStore', () => {
   const tasks = ref([])
   const searchQuery = ref('')
   const selectedCategory = ref('All')
+  
+  // Load tasks from localStorage when the store initializes
+  onMounted(() => {
+    const storedTasks = localStorage.getItem('tasks')
+    if (storedTasks) {
+      tasks.value = JSON.parse(storedTasks)
+    }
+  })
   
   const addTask = (text, category = 'General', dueDate = null) => {
     if (!text.trim()) return
@@ -27,6 +35,11 @@ export const useTaskStore = defineStore('taskStore', () => {
     const task = tasks.value.find(task => task.id === id)
     if (task) task.completed = !task.completed
   }
+  
+  // Watch for changes in tasks and save to localStorage
+  watch(tasks, newTasks => {
+    localStorage.setItem('tasks', JSON.stringify(newTasks))
+  }, { deep: true })
   
   return { tasks, addTask, deleteTask, toggleTask, searchQuery, selectedCategory, filteredTasks }
 })
