@@ -3,6 +3,7 @@ import { useTaskStore } from '@/stores/taskStore'
 import IconCheckmark from '@/components/icons/IconCheckmark.vue'
 import IconCancel from '@/components/icons/IconCancel.vue'
 import TaskInput from '@/components/TaskInput.vue'
+import IconTrash from '@/components/icons/IconTrash.vue'
 
 const store = useTaskStore()
 const props = defineProps(['task'])
@@ -33,7 +34,7 @@ const props = defineProps(['task'])
         <IconCheckmark/>
       </button>
       <button @click="store.deleteTask(task.id)" class="text-red-500 hover:text-red-700 transition">
-        <IconCancel/>
+        <IconTrash />
       </button>
     </div>
   </div>
