@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { useTaskStore } from '@/stores/taskStore'
 import IconCheckmark from '@/components/icons/IconCheckmark.vue'
-import IconCancel from '@/components/icons/IconCancel.vue'
 import IconUndo from '@/components/icons/IconUndo.vue'
 
 const store = useTaskStore()

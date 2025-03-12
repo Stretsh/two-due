@@ -1,7 +1,6 @@
 <script setup>
 import { useTaskStore } from '@/stores/taskStore'
 import IconCheckmark from '@/components/icons/IconCheckmark.vue'
-import IconCancel from '@/components/icons/IconCancel.vue'
 import TaskInput from '@/components/TaskInput.vue'
 import IconTrash from '@/components/icons/IconTrash.vue'
 

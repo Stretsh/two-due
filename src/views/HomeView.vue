@@ -19,7 +19,6 @@ const toggleTheme = () => {
   localStorage.setItem('theme', newTheme)
 }
 
-// Ensure the correct theme is applied on mount
 onMounted(() => {
   document.documentElement.classList.toggle('dark', isDark.value)
 })
