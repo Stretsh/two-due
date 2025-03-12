@@ -10,6 +10,8 @@ const store = useTaskStore()
 const isDark = ref(localStorage.theme === 'dark' ||
   (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches))
 
+const showFilters = ref(false)
+
 const toggleTheme = () => {
   isDark.value = !isDark.value
   const newTheme = isDark.value ? 'dark' : 'light'
@@ -33,29 +35,53 @@ onMounted(() => {
         <IconMoonStars v-else/>
       </button>
 
-      <h1 class="text-2xl font-bold mb-4">My To-Do List</h1>
-      <input v-model="store.searchQuery" placeholder="Search tasks..."
-             class="border rounded-md px-4 py-2 w-full mb-2 placeholder-gray-500
+      <h1 class="text-2xl font-bold mb-4">Two Due</h1>
+
+      <TaskInput v-if="!store.editingTaskId"/>
+
+      <transition name="fade">
+        <div v-if="showFilters" class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-md">
+          <input v-model="store.searchQuery" placeholder="Search tasks..."
+                 class="border rounded-md px-4 py-2 w-full mb-2 placeholder-gray-500
               dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder-gray-400">
 
-      <select v-model="store.selectedCategory"
-              class="border rounded-md px-4 py-2 w-full mb-4 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-        <option>All</option>
-        <option>General</option>
-        <option>Work</option>
-        <option>Personal</option>
-        <option>Shopping</option>
-      </select>
+          <select v-model="store.selectedCategory"
+                  class="border rounded-md px-4 py-2 w-full mb-4 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <option>All</option>
+            <option>General</option>
+            <option>Work</option>
+            <option>Personal</option>
+            <option>Shopping</option>
+          </select>
 
-      <select v-model="store.filterStatus"
-        class="w-full p-2 mb-4 border rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-        <option value="All">All Tasks</option>
-        <option value="Completed">Completed Tasks</option>
-        <option value="Pending">Pending Tasks</option>
-      </select>
-      <TaskInput v-if="!store.editingTaskId"/>
+          <select v-model="store.filterStatus"
+                  class="w-full p-2 mb-4 border rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <option value="All">All Tasks</option>
+            <option value="Completed">Completed Tasks</option>
+            <option value="Pending">Pending Tasks</option>
+          </select>
+        </div>
+      </transition>
+
+
+      <button @click="showFilters = !showFilters" class="text-blue-500 hover:underline mb-2">
+        {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+      </button>
+
+
       <TaskList/>
     </div>
   </div>
 
 </template>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+</style>
