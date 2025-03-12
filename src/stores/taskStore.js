@@ -14,6 +14,8 @@ export const useTaskStore = defineStore('taskStore', () => {
     dueDate: '',
   })
   
+  const filterStatus = ref('All') // Options: 'All', 'Completed', 'Pending'
+  
   onMounted(() => {
     const storedTasks = localStorage.getItem('tasks')
     if (storedTasks) {
@@ -32,7 +34,11 @@ export const useTaskStore = defineStore('taskStore', () => {
     return tasks.value.filter(task => {
       const matchesSearch = task.text.toLowerCase().includes(searchQuery.value.toLowerCase())
       const matchesCategory = selectedCategory.value === 'All' || task.category === selectedCategory.value
-      return matchesSearch && matchesCategory
+      const matchesFilterStatus =
+        filterStatus.value === 'All' ||
+        (filterStatus.value === 'Completed' && task.completed) ||
+        (filterStatus.value === 'Pending' && !task.completed)
+      return matchesSearch && matchesCategory && matchesFilterStatus
     })
   })
   
@@ -46,7 +52,7 @@ export const useTaskStore = defineStore('taskStore', () => {
   }
   
   const resetTask = () => {
-    currentTask.value = JSON.parse(JSON.stringify(blankTask.value))
+    currentTask.value = { ...blankTask.value }
   }
   
   const getBlankTask = () => {
@@ -78,7 +84,7 @@ export const useTaskStore = defineStore('taskStore', () => {
   }, { deep: true })
   
   return {
-    tasks, editingTaskId, currentTask,
+    tasks, editingTaskId, currentTask, filterStatus,
     addTask, editTask, deleteTask, toggleTask, setEditingTask, cancelEditing, getBlankTask,
     searchQuery, selectedCategory, filteredTasks, }
 })

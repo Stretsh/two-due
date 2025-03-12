@@ -46,6 +46,13 @@ onMounted(() => {
         <option>Personal</option>
         <option>Shopping</option>
       </select>
+
+      <select v-model="store.filterStatus"
+        class="w-full p-2 mb-4 border rounded-md dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+        <option value="All">All Tasks</option>
+        <option value="Completed">Completed Tasks</option>
+        <option value="Pending">Pending Tasks</option>
+      </select>
       <TaskInput v-if="!store.editingTaskId"/>
       <TaskList/>
     </div>
